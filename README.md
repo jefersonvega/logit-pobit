@@ -13,13 +13,15 @@ unos nombres mas concretos
 2.  5
 
 |Satisfecho|Sexo| Ingreso|Forma |Donde | 
-|--|--|--|--|--|--|
+|--|--|--|--|--|
 |1 |1500000 |41 |2| 7|
 |NA|NA|42|NA|NA|
 |NA|NA|9|NA|NA|
 |NA|NA|8|NA|NA|
 |1|460000|26|4|4|
 |NA|NA|29|NA|NA|
+
+
 Los _NA's_ son valores perdidos por lo que es necesario determinar que hacer con los datos. Al tratarse de la Encuesta Integrada de Hogares, esos datos corresponden a las personas que no están en edad de trabajar por lo que lo mejor es omitirlos:
 
     datos2 <- na.omit(datos1);dim(datos2); head(datos2)
