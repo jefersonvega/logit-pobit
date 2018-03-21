@@ -48,9 +48,11 @@ Algunas variables seleccionadas son categóricas por lo que necesitamos converti
     datos2$satisfaccion<-factor(datos2$satisfaccion)
     summary(datos2$satisfaccion)
 **Insatisfecho**
+
 *51668*
 
 **Satisfecho**
+
 *265428*
 
   
@@ -67,15 +69,19 @@ Algunas variables seleccionadas son categóricas por lo que necesitamos converti
     datos2$forma<-factor(datos2$forma)
     summary(datos2$forma)
 **Cuenta propia**
+
 *159124*
 
 **Empleado**
+
 *152720*
 
 **Otros**
+
 *413*
 
 **Pensionado**
+
 *4839*
 
 ![png](menosdesarrollados.jpg)
