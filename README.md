@@ -142,7 +142,7 @@ A continuación vamos a generar una variable categorica para la edad que posteri
 *74702*
 
 
-```R
+```
  satisfecho        ingreso               edad                 forma       
  Min.   :0.0000   Min.   :        0   Min.   :10.00   cuenta propia:159124  
  1st Qu.:1.0000   1st Qu.:   360000   1st Qu.:28.00   empleado     :152720  
