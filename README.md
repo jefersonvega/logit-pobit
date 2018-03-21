@@ -11,6 +11,6 @@
 
 George no me hace caso
 
-![png](menosdesarrolados.jpg)
+![png](menosdesarrollados.jpg)
 
 a ver
