@@ -84,6 +84,41 @@ Algunas variables seleccionadas son categóricas por lo que necesitamos converti
 
 *4839*
 
+
+    datos2$donde<-replace(datos2$donde,datos2$donde==1, "vivienda")
+    datos2$donde<-replace(datos2$donde,datos2$donde==2, "vivienda")
+    datos2$donde<-replace(datos2$donde,datos2$donde==3, "ambulante")
+    datos2$donde<-replace(datos2$donde,datos2$donde==4, "ambulante")
+    datos2$donde<-replace(datos2$donde,datos2$donde==5, "ambulante")
+    datos2$donde<-replace(datos2$donde,datos2$donde==6, "ambulante")
+    datos2$donde<-replace(datos2$donde,datos2$donde==7, "local")
+    datos2$donde<-replace(datos2$donde,datos2$donde==8, "rural")
+    datos2$donde<-replace(datos2$donde,datos2$donde==9, "exteriores")
+    datos2$donde<-replace(datos2$donde,datos2$donde==10, "exteriores")
+    datos2$donde<-replace(datos2$donde,datos2$donde==11, "exteriores")
+    datos2$donde<-factor(datos2$donde)
+    summary(datos2$donde)
+
+**Ambulante**
+
+*60036*
+
+**Exteriores**
+
+*13758*
+
+**Local**
+
+*147079*
+
+**Rural**
+
+*25370*
+
+**Vivienda**
+
+*70853*
+
 ![png](menosdesarrollados.jpg)
 
 a ver
