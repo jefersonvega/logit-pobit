@@ -1,7 +1,7 @@
 ## Prueba
 # Que sale
 
-    George es gay
+    George 
 
 |Satisfecho|Sexo| | | | |
 |--|--|--|--|--|--|
