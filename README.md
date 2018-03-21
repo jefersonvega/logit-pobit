@@ -141,6 +141,10 @@ A continuación vamos a generar una variable categorica para la edad que posteri
 
 *74702*
 
+```
+summary(datos2)
+```
+
 
 ```
  satisfecho        ingreso               edad                 forma       
