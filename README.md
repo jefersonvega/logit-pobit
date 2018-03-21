@@ -119,6 +119,27 @@ Algunas variables seleccionadas son categóricas por lo que necesitamos converti
 
 *70853*
 
+
+A continuación vamos a generar una variable categorica para la edad que posteriormente usaremos solo para propositos de estadistica descriptiva
+
+    edades=vector()
+    edades[datos2$edad<28]="Jovenes"
+    edades[datos2$edad>=28 & datos2$edad<50]="Adultos"
+    edades[datos2$edad>=50]="Adultos Mayores"
+    datos2$edades=as.factor(edades)
+
+**Adultos**
+
+*160779*
+
+**Adultos Mayores**
+
+*81615*
+
+**Jovenes**
+
+*74702*
+
 ![png](menosdesarrollados.jpg)
 
 a ver
