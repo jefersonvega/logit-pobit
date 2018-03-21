@@ -1,6 +1,6 @@
 # logit-pobit
 
 Previamnete
- '''R
+````R
  Prueba
- '''
+ ```
