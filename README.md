@@ -29,7 +29,7 @@ Los _NA's_ son valores perdidos por lo que es necesario determinar que hacer con
 2. 5
 
 |Satisfecho  |Sexo  |Ingreso |Forma |Donde | 
-|--|--|--|--|--|--|
+|--|--|--|--|--|
 | 1|1500000  |41 |2 |7 | 
 | 1|460000 |26 |4 |4 |
 | 2|600000 |36 |4 |4 |
