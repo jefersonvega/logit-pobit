@@ -5,10 +5,11 @@ Primero cargamos la base de datos
     load("logitprobit.Rdata")
 Para este ejercicio vamos a seleccionar 5 variables de la base de datos y colocarles 
 unos nombres mas concretos
-
+```R
     datos1<-datos[,c("P7170s1","Inglabo","P6040","P6430","P6880")]
     colnames(datos1)<-c("satisfecho","ingreso","edad","forma","donde")
     dim(datos1); head(datos1)
+```
 1. 787044     
 2.  5
 
