@@ -1,6 +1,10 @@
 # logit-pobit
 
 Previamnete
-````R
+```R
  Prueba
  ```
+ esto
+ ```
+ prueba
+ ```R
