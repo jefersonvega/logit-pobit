@@ -3,8 +3,4 @@
 Previamnete
 ```R
  Prueba
- ```
- esto
- ```
- prueba
  ```R
