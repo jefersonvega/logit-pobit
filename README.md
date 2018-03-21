@@ -140,6 +140,23 @@ A continuación vamos a generar una variable categorica para la edad que posteri
 
 *74702*
 
+
+```R
+ satisfecho        ingreso               edad                 forma       
+ Min.   :0.0000   Min.   :        0   Min.   :10.00   cuenta propia:159124  
+ 1st Qu.:1.0000   1st Qu.:   360000   1st Qu.:28.00   empleado     :152720  
+ Median :1.0000   Median :   644350   Median :38.00   otros        :   413  
+ Mean   :0.8371   Mean   :   877375   Mean   :39.57   pensionado   :  4839  
+ 3rd Qu.:1.0000   3rd Qu.:   980000   3rd Qu.:50.00                         
+ Max.   :1.0000   Max.   :100000000   Max.   :98.00                         
+        donde              satisfaccion                edades      
+ ambulante : 60036   Insatisfecho: 51668   Adultos        :160779  
+ exteriores: 13758   Satisfecho  :265428   Adultos Mayores: 81615  
+ local     :147079                         Jovenes        : 74702  
+ rural     : 25370                                                 
+ vivienda  : 70853                                                 
+                                                  
+```
 ![png](menosdesarrollados.jpg)
 
 a ver
