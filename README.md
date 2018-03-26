@@ -240,6 +240,6 @@ Para complementar este análisis graficaremos
 
 ```
 
-![png](menosdesarrollados.jpg)
+![png](edades.jpg)
 
 a ver
