@@ -242,4 +242,95 @@ Para complementar este análisis graficaremos
 
 ![png](edades.jpg)
 
-a ver
+
+``` bash
+
+    with(datos2,barplot(prop.table(table(satisfaccion,forma))*100,beside=T,
+     main="Satisfacción según el tipo de trabajo",xlab="Clasificación",
+     ylab="Porcentaje",col=c("red","grey")))
+
+    legend("topright",c("Insatisfecho","satisfecho"),cex=1.6,fill=c("red","grey"),
+    lty=1:1)
+
+```
+
+![png](forma.jpg)
+
+
+``` bash
+
+    with(datos2,barplot(prop.table(table(satisfaccion,donde))*100,beside=T,
+    main="Satisfacción según el lugar de trabajo",xlab="Clasificación",
+    ylab="Porcentaje",col=c("red","grey")))
+
+    legend("topright",c("Insatisfecho","satisfecho"),cex=1.0,fill=c("red","grey"),
+    lty=1:1)
+
+```
+
+![png](donde.jpg)
+
+
+Una mirada a las variables cuantitativas
+
+```bash
+
+    with(datos2,hist(ingreso*1e-6, main = "Ingreso (en Millones)", xlab="", freq=F,
+    col=c("grey")))
+
+```
+
+![png](ingreso.jpg)
+
+
+ahora veremos las mediadas de dispersión
+
+
+```bash
+
+    stats <- function(x){
+    x <- x
+    m <- mean(x)
+    n <- length(x)
+    s <- sd(x)
+    skew <- sum((x-m)^3/s^3)/n
+    kurt <- sum((x-m)^4/s^4)/n - 3
+    return(c(tamaño=n, media=m, "desviación estándar"=s, simetría=skew,
+    kurtosis=kurt))}
+    
+    sapply(datos2, stats)
+```
+
+```bash
+
+satisfecho      ingreso          edad        forma
+tamaño               3.170960e+05 3.170960e+05  3.170960e+05 3.170960e+05
+media                8.370588e-01 8.773750e+05  3.957301e+01           NA
+desviación estándar  3.693126e-01 1.221827e+06  1.401222e+01 5.858906e-01
+simetría            -1.825325e+00 1.570259e+01  4.239537e-01           NA
+kurtosis             1.331815e+00 6.794995e+02 -5.010338e-01           NA
+                          donde satisfaccion       edades
+tamaño              3.17096e+05 3.170960e+05 3.170960e+05
+media                        NA           NA           NA
+desviación estándar 1.32797e+00 3.693126e-01 8.178827e-01
+simetría                     NA           NA           NA
+kurtosis                     NA           NA           NA
+There were 16 warnings (use warnings() to see them)
+
+```
+
+veamos en detalle las variables que nos interesan
+
+
+|  | ingreso | edad |
+|--|--|--|
+|tamaño  |317096|317096  |
+|Min. |0|10 |
+|1 st Qu . |360000 |28.00 |
+|Mediana|644350 |38.00  |
+|media   |877375 |39.573|
+|3rd Qu.|980000 |50.00|
+|Max. |100000000 |98.00 |
+|desviación estándar |1221827 |14.012 |
+|simetría |1.570259e+01 |4.239537e-01  | 
+|kurtosis  |6.794995e+02 |-5.010338e-01 | 
