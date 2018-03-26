@@ -3,13 +3,19 @@
 Primero cargamos la base de datos
 
     load("logitprobit.Rdata")
-Para este ejercicio vamos a seleccionar 5 variables de la base de datos y colocarles 
-unos nombres mas concretos
-```R
+Para este ejercicio vamos a seleccionar 5 variables de la base de datos de la gran encuesta integrada de hogares (GEIH) del año 2015 y colocarles unos nombres mas concretos
+
     datos1<-datos[,c("P7170s1","Inglabo","P6040","P6430","P6880")]
     colnames(datos1)<-c("satisfecho","ingreso","edad","forma","donde")
     dim(datos1); head(datos1)
-```
+Breve descripción de las variables
+
+    P7170s1: ¿Está satisfecho con su trabajo actual?
+    Inglabo: Ingresos laborales
+    P6O40: ¿Cuantos años cumplidos tiene?
+    P6430: En este trabajo es:
+    P6880:Donde realiza principalmente su trabajo:
+    
 1. 787044     
 2.  5
 
@@ -21,8 +27,6 @@ unos nombres mas concretos
 |NA|NA|8|NA|NA|
 |1|460000|26|4|4|
 |NA|NA|29|NA|NA|
-
-
 Los _NA's_ son valores perdidos por lo que es necesario determinar que hacer con los datos. Al tratarse de la Encuesta Integrada de Hogares, esos datos corresponden a las personas que no están en edad de trabajar por lo que lo mejor es omitirlos:
 
     datos2 <- na.omit(datos1);dim(datos2); head(datos2)
@@ -30,7 +34,7 @@ Los _NA's_ son valores perdidos por lo que es necesario determinar que hacer con
 2. 5
 
 |Satisfecho  |Sexo  |Ingreso |Forma |Donde | 
-|--|--|--|--|--|
+|--|--|--|--|--|--|
 | 1|1500000  |41 |2 |7 | 
 | 1|460000 |26 |4 |4 |
 | 2|600000 |36 |4 |4 |
@@ -49,12 +53,25 @@ Algunas variables seleccionadas son categóricas por lo que necesitamos converti
     datos2$satisfaccion<-factor(datos2$satisfaccion)
     summary(datos2$satisfaccion)
 **Insatisfecho**
-
 *51668*
 
 **Satisfecho**
-
 *265428*
+
+En relación a las variables categoricas forma y donde, vamos a relizar unas agrupaciones 
+
+```bash
+ table(datos2$forma)
+
+     1      2      3      4      5      6      7      8      9 
+123919  16346  12455 148342  10782     94      9   4839    310 
+ 
+ table(datos2$donde)
+
+     1      2      3      4      5      6      7      8      9     10     11 
+ 36134  34719    815  23309  16791  19121 147079  25370  12783    707    268 
+```
+
 
   
 
