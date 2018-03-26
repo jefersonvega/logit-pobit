@@ -35,7 +35,9 @@ Los _NA's_ son valores perdidos por lo que es necesario determinar que hacer con
     datos2 <- na.omit(datos1);dim(datos2); head(datos2)
 
 1. 317096    
+
 2. 5
+
 
 |Satisfecho  |Sexo  |Ingreso |Forma |Donde | 
 |--|--|--|--|--|--|
@@ -45,6 +47,7 @@ Los _NA's_ son valores perdidos por lo que es necesario determinar que hacer con
 | 2|280000 |37 |4 |2 |
 | 1|100000 |71 |4 |6 |
 |1 |616000 |21 |1 |7 |
+
 
 
 Algunas variables seleccionadas son categóricas por lo que necesitamos convertirlas adecuadamente en factores, también, requerimos identificar correctamente cada categoría:
