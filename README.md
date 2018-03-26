@@ -3,11 +3,13 @@
 Primero cargamos la base de datos
 
     load("logitprobit.Rdata")
+    
 Para este ejercicio vamos a seleccionar 5 variables de la base de datos de la gran encuesta integrada de hogares (GEIH) del año 2015 y colocarles unos nombres mas concretos
 
     datos1<-datos[,c("P7170s1","Inglabo","P6040","P6430","P6880")]
     colnames(datos1)<-c("satisfecho","ingreso","edad","forma","donde")
     dim(datos1); head(datos1)
+
 Breve descripción de las variables
 
     P7170s1: ¿Está satisfecho con su trabajo actual?
@@ -27,9 +29,11 @@ Breve descripción de las variables
 |NA|NA|8|NA|NA|
 |1|460000|26|4|4|
 |NA|NA|29|NA|NA|
+
 Los _NA's_ son valores perdidos por lo que es necesario determinar que hacer con los datos. Al tratarse de la Encuesta Integrada de Hogares, esos datos corresponden a las personas que no están en edad de trabajar por lo que lo mejor es omitirlos:
 
     datos2 <- na.omit(datos1);dim(datos2); head(datos2)
+
 1. 317096    
 2. 5
 
@@ -42,6 +46,7 @@ Los _NA's_ son valores perdidos por lo que es necesario determinar que hacer con
 | 1|100000 |71 |4 |6 |
 |1 |616000 |21 |1 |7 |
 
+
 Algunas variables seleccionadas son categóricas por lo que necesitamos convertirlas adecuadamente en factores, también, requerimos identificar correctamente cada categoría:
 
     datos2$satisfecho<-replace(datos2$satisfecho,datos2$satisfecho==2,0)
@@ -52,11 +57,13 @@ Algunas variables seleccionadas son categóricas por lo que necesitamos converti
     "Insatisfecho")
     datos2$satisfaccion<-factor(datos2$satisfaccion)
     summary(datos2$satisfaccion)
+
 **Insatisfecho**
 *51668*
 
 **Satisfecho**
 *265428*
+
 
 En relación a las variables categoricas forma y donde, vamos a relizar unas agrupaciones 
 
