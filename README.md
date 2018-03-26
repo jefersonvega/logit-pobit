@@ -189,6 +189,57 @@ summary(datos2)
  vivienda  : 70853                                                 
                                                   
 ```
+
+
+Ahora se realizara un analisis descriptivo de las variables a través de tablas de contingencia
+
+    with(datos2, addmargins(prop.table( table(edades,satisfaccion))*100))
+
+
+|  | Insatisfecho |Satisfecho | Sum|
+|--|--|--|--|
+| Adultos |  8.253967 |42.449605  |50.703572 |
+| Adultos Mayores| 3.120191   |22.618071 | 25.738262 |
+| Jovenes| 4.919961   | 18.638204  |23.558165 | 
+|sum|16.294119 |83.705881 |100.000000 | 
+
+
+    with(datos2, addmargins(prop.table( table(forma,satisfaccion))*100))
+
+
+|  |Insatisfecho  |Satisfecho  |Sum |
+|--|--|--|--|
+|Cuenta propia  |9.53212907  |40.64951939  |50.18164846  |
+|Empleado  |6.48289477  |41.67917602  |48.16207079  |
+|Otros  | 0.03185155  |0.09839292  |0.13024447  |
+|Pensionado|0.24724374|1.27879254   |1.52603628  |
+|Sum    |16.29411913 |83.70588087   |100.00000000| 
+
+
+    with(datos2, addmargins(prop.table( table(donde,satisfaccion))*100))
+
+
+|  |Insatisfecho  |Satisfecho |Sum |
+|--|--|--|--|
+|Ambulante  |4.094974|14.838093 |18.933068 |
+|Exteriores |0.787774  |3.550975 |4.338749  |
+|Local |5.820950 |40.562164 |46.383114 |
+|Rural |1.420390 |6.580342 |8.000732 |
+|Vivienda | 4.170031 |18.174307 |22.344337 |
+|Sum |16.294119 |83.705881 |100.000000 | 
+
+
+Para complementar este análisis graficaremos
+
+``` bash
+    with(datos2,barplot(prop.table(table(satisfaccion,edades))*100,beside=T,
+    main="Satisfacción según la clasificación de edad",xlab="Clasificación",
+    ylab="Porcentaje",col=c("red","grey")))
+    legend("topright",c("Insatisfecho","satisfecho"),cex=1.6,col=c("red","grey"),
+    lty=1:1)
+
+```
+
 ![png](menosdesarrollados.jpg)
 
 a ver
