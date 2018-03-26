@@ -303,7 +303,7 @@ ahora veremos las mediadas de dispersión
 
 ```bash
 
-satisfecho      ingreso          edad        forma
+                     satisfecho      ingreso          edad        forma
 tamaño               3.170960e+05 3.170960e+05  3.170960e+05 3.170960e+05
 media                8.370588e-01 8.773750e+05  3.957301e+01           NA
 desviación estándar  3.693126e-01 1.221827e+06  1.401222e+01 5.858906e-01
