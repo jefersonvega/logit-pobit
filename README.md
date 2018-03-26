@@ -40,7 +40,7 @@ Los _NA's_ son valores perdidos por lo que es necesario determinar que hacer con
 
 
 |Satisfecho  |Sexo  |Ingreso |Forma |Donde | 
-|--|--|--|--|--|--|
+|--|--|--|--|--|
 | 1|1500000  |41 |2 |7 | 
 | 1|460000 |26 |4 |4 |
 | 2|600000 |36 |4 |4 |
@@ -70,7 +70,7 @@ Algunas variables seleccionadas son categóricas por lo que necesitamos converti
 
 En relación a las variables categoricas forma y donde, vamos a relizar unas agrupaciones 
 
-```bash
+```
  table(datos2$forma)
 
      1      2      3      4      5      6      7      8      9 
