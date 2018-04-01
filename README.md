@@ -242,4 +242,299 @@ Para complementar este análisis graficaremos
 
 ![png](edades.jpg)
 
-a ver
+
+``` bash
+
+    with(datos2,barplot(prop.table(table(satisfaccion,forma))*100,beside=T,
+     main="Satisfacción según el tipo de trabajo",xlab="Clasificación",
+     ylab="Porcentaje",col=c("red","grey")))
+
+    legend("topright",c("Insatisfecho","satisfecho"),cex=1.6,fill=c("red","grey"),
+    lty=1:1)
+
+```
+
+![png](forma.jpg)
+
+
+``` bash
+
+    with(datos2,barplot(prop.table(table(satisfaccion,donde))*100,beside=T,
+    main="Satisfacción según el lugar de trabajo",xlab="Clasificación",
+    ylab="Porcentaje",col=c("red","grey")))
+
+    legend("topright",c("Insatisfecho","satisfecho"),cex=1.0,fill=c("red","grey"),
+    lty=1:1)
+
+```
+
+![png](donde.jpg)
+
+
+Una mirada a las variables cuantitativas
+
+```bash
+
+    with(datos2,hist(ingreso*1e-6, main = "Ingreso (en Millones)", xlab="", freq=F,
+    col=c("grey")))
+
+```
+
+![png](ingreso.jpg)
+
+
+ahora veremos las mediadas de dispersión
+
+
+```bash
+
+    stats <- function(x){
+    x <- x
+    m <- mean(x)
+    n <- length(x)
+    s <- sd(x)
+    skew <- sum((x-m)^3/s^3)/n
+    kurt <- sum((x-m)^4/s^4)/n - 3
+    return(c(tamaño=n, media=m, "desviación estándar"=s, simetría=skew,
+    kurtosis=kurt))}
+    
+    sapply(datos2, stats)
+```
+
+```bash
+
+                     satisfecho      ingreso          edad        forma
+tamaño               3.170960e+05 3.170960e+05  3.170960e+05 3.170960e+05
+media                8.370588e-01 8.773750e+05  3.957301e+01           NA
+desviación estándar  3.693126e-01 1.221827e+06  1.401222e+01 5.858906e-01
+simetría            -1.825325e+00 1.570259e+01  4.239537e-01           NA
+kurtosis             1.331815e+00 6.794995e+02 -5.010338e-01           NA
+                          donde satisfaccion       edades
+tamaño              3.17096e+05 3.170960e+05 3.170960e+05
+media                        NA           NA           NA
+desviación estándar 1.32797e+00 3.693126e-01 8.178827e-01
+simetría                     NA           NA           NA
+kurtosis                     NA           NA           NA
+There were 16 warnings (use warnings() to see them)
+
+```
+
+veamos en detalle las variables que nos interesan
+
+
+|  | ingreso | edad |
+|--|--|--|
+|tamaño  |317096|317096  |
+|Min. |0|10 |
+|1 st Qu . |360000 |28.00 |
+|Mediana|644350 |38.00  |
+|media   |877375 |39.573|
+|3rd Qu.|980000 |50.00|
+|Max. |100000000 |98.00 |
+|desviación estándar |1221827 |14.012 |
+|simetría |1.570259e+01 |4.239537e-01  | 
+|kurtosis  |6.794995e+02 |-5.010338e-01 | 
+
+
+----------
+
+construcción de los modelos
+
+    # Modelo
+    logit <- glm(satisfecho ~ ingreso + edad + forma+ 
+          donde, data = datos2, family = "binomial")
+          summary(logit)
+
+```bash
+
+Warning message:
+glm.fit: fitted probabilities numerically 0 or 1 occurred 
+
+Call:
+glm(formula = satisfecho ~ ingreso + edad + forma + donde, family = "binomial", 
+    data = datos2)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-7.3874   0.3548   0.5419   0.6413   1.1182  
+
+Coefficients:
+                  Estimate Std. Error z value Pr(>|z|)    
+(Intercept)     -7.661e-02  1.881e-02  -4.073 4.64e-05 ***
+ingreso          8.102e-07  1.175e-08  68.940  < 2e-16 ***
+edad             2.012e-02  3.689e-04  54.540  < 2e-16 ***
+formaempleado    2.052e-01  1.186e-02  17.305  < 2e-16 ***
+formaotros       1.038e-01  1.161e-01   0.894    0.371    
+formapensionado  1.955e-01  4.343e-02   4.502 6.75e-06 ***
+dondeexteriores  1.078e-01  2.491e-02   4.328 1.51e-05 ***
+dondelocal       4.286e-01  1.411e-02  30.369  < 2e-16 ***
+donderural       3.273e-01  2.110e-02  15.509  < 2e-16 ***
+dondevivienda    3.062e-01  1.426e-02  21.470  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 281908  on 317095  degrees of freedom
+Residual deviance: 267224  on 317086  degrees of freedom
+AIC: 267244
+
+Number of Fisher Scoring iterations: 6
+
+```
+
+    probit <- glm(satisfecho ~ ingreso + edad + forma+ 
+           donde, data = datos2, family = binomial(link = "probit"))
+           summary(probit)
+```bash
+
+Warning message:
+glm.fit: fitted probabilities numerically 0 or 1 occurred 
+
+Call:
+glm(formula = satisfecho ~ ingreso + edad + forma + donde, family = 
+binomial(link = "probit"), data = datos2)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-8.4904   0.3778   0.5480   0.6432   1.0515  
+
+Coefficients:
+                 Estimate Std. Error z value Pr(>|z|)    
+(Intercept)     6.843e-02  1.065e-02   6.428 1.29e-10 ***
+ingreso         3.472e-07  5.541e-09  62.657  < 2e-16 ***
+edad            1.145e-02  2.053e-04  55.771  < 2e-16 ***
+formaempleado   1.341e-01  6.496e-03  20.646  < 2e-16 ***
+formaotros      1.887e-02  6.797e-02   0.278    0.781    
+formapensionado 1.243e-01  2.410e-02   5.157 2.51e-07 ***
+dondeexteriores 7.144e-02  1.409e-02   5.071 3.96e-07 ***
+dondelocal      2.444e-01  7.887e-03  30.994  < 2e-16 ***
+donderural      1.658e-01  1.195e-02  13.878  < 2e-16 ***
+dondevivienda   1.526e-01  8.120e-03  18.794  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 281908  on 317095  degrees of freedom
+Residual deviance: 268315  on 317086  degrees of freedom
+AIC: 268335
+
+Number of Fisher Scoring iterations: 9
+
+```
+
+de donde debemos elegir con cual quedarnos 
+
+    AIC(logit,probit)
+
+|  | df   |AIC |
+|--|--|--|
+|logit  | 10   |267243.9 |
+|probit | 10  |268335.3 | 
+
+pocedemos con los test de independencia
+
+    library(aod)
+    
+    wald.test(b = coef(logit), Sigma = vcov(logit), Terms = 4:5)# Para forma de
+    trabajo= empleado y pensionado
+
+```bash
+
+Wald test:
+----------
+
+Chi-squared test:
+X2 = 299.5, df = 2, P(> X2) = 0.0
+
+```
+
+ 
+    wald.test(b = coef(logit), Sigma = vcov(logit), Terms = 6)# Para forma de
+    trabajo =otros
+
+```bash
+
+Wald test:
+----------
+
+Chi-squared test:
+X2 = 20.3, df = 1, P(> X2) = 6.7e-06
+
+```
+    
+    wald.test(b = coef(logit), Sigma = vcov(logit), Terms = 7:8) # Para lugar de
+    trabajo= exteriores y local 
+
+```bash
+
+Wald test:
+----------
+
+Chi-squared test:
+X2 = 965.4, df = 2, P(> X2) = 0.0
+
+```
+    
+    wald.test(b = coef(logit), Sigma = vcov(logit), Terms = 9:10) # Para lugar de
+    trabajo= rural y vivienda
+
+```bash
+
+Wald test:
+----------
+
+Chi-squared test:
+X2 = 531.1, df = 2, P(> X2) = 0.0
+
+```
+summary(logit)
+
+```bash
+
+Call:
+glm(formula = satisfecho ~ ingreso + edad + forma + donde, family = "binomial", 
+    data = datos2)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-7.3874   0.3548   0.5419   0.6413   1.1182  
+
+Coefficients:
+                  Estimate Std. Error z value Pr(>|z|)    
+(Intercept)     -7.661e-02  1.881e-02  -4.073 4.64e-05 ***
+ingreso          8.102e-07  1.175e-08  68.940  < 2e-16 ***
+edad             2.012e-02  3.689e-04  54.540  < 2e-16 ***
+formaempleado    2.052e-01  1.186e-02  17.305  < 2e-16 ***
+formaotros       1.038e-01  1.161e-01   0.894    0.371    
+formapensionado  1.955e-01  4.343e-02   4.502 6.75e-06 ***
+dondeexteriores  1.078e-01  2.491e-02   4.328 1.51e-05 ***
+dondelocal       4.286e-01  1.411e-02  30.369  < 2e-16 ***
+donderural       3.273e-01  2.110e-02  15.509  < 2e-16 ***
+dondevivienda    3.062e-01  1.426e-02  21.470  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 281908  on 317095  degrees of freedom
+Residual deviance: 267224  on 317086  degrees of freedom
+AIC: 267244
+
+Number of Fisher Scoring iterations: 6
+
+```
+
+    l <- cbind(0, 0, 0, 0, 1, -1, 0, 0,0,0)
+    wald.test(b = coef(logit), Sigma = vcov(logit), L = l)
+
+```bash
+
+Wald test:
+----------
+
+Chi-squared test:
+X2 = 0.55, df = 1, P(> X2) = 0.46
+
+```
