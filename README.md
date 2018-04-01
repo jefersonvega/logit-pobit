@@ -6,18 +6,26 @@ Primero cargamos la base de datos
     
 Para este ejercicio vamos a seleccionar 5 variables de la base de datos de la gran encuesta integrada de hogares (GEIH) del año 2015 y colocarles unos nombres mas concretos
 
+```bash
+
     datos1<-datos[,c("P7170s1","Inglabo","P6040","P6430","P6880")]
     colnames(datos1)<-c("satisfecho","ingreso","edad","forma","donde")
     dim(datos1); head(datos1)
 
+```
+
 Breve descripción de las variables
+
+```bash
 
     P7170s1: ¿Está satisfecho con su trabajo actual?
     Inglabo: Ingresos laborales
     P6O40: ¿Cuantos años cumplidos tiene?
     P6430: En este trabajo es:
     P6880:Donde realiza principalmente su trabajo:
-    
+   
+   ```
+   
 1. 787044     
 2.  5
 
@@ -52,6 +60,8 @@ Los _NA's_ son valores perdidos por lo que es necesario determinar que hacer con
 
 Algunas variables seleccionadas son categóricas por lo que necesitamos convertirlas adecuadamente en factores, también, requerimos identificar correctamente cada categoría:
 
+```bash
+
     datos2$satisfecho<-replace(datos2$satisfecho,datos2$satisfecho==2,0)
     datos2$satisfaccion<-datos2$satisfecho
     datos2$satisfaccion<-replace(datos2$satisfaccion,datos2$satisfaccion==1,
@@ -60,6 +70,8 @@ Algunas variables seleccionadas son categóricas por lo que necesitamos converti
     "Insatisfecho")
     datos2$satisfaccion<-factor(datos2$satisfaccion)
     summary(datos2$satisfaccion)
+
+```
 
 **Insatisfecho**
 *51668*
@@ -82,7 +94,7 @@ En relación a las variables categoricas forma y donde, vamos a relizar unas agr
  36134  34719    815  23309  16791  19121 147079  25370  12783    707    268 
 ```
 
-
+```bash
   
 
     datos2$forma<-replace(datos2$forma,datos2$forma==1,"empleado")
@@ -96,6 +108,9 @@ En relación a las variables categoricas forma y donde, vamos a relizar unas agr
     datos2$forma<-replace(datos2$forma,datos2$forma==9,"otros")
     datos2$forma<-factor(datos2$forma)
     summary(datos2$forma)
+    
+```
+    
 **Cuenta propia**
 
 *159124*
@@ -112,6 +127,7 @@ En relación a las variables categoricas forma y donde, vamos a relizar unas agr
 
 *4839*
 
+```bash
 
     datos2$donde<-replace(datos2$donde,datos2$donde==1, "vivienda")
     datos2$donde<-replace(datos2$donde,datos2$donde==2, "vivienda")
@@ -126,6 +142,8 @@ En relación a las variables categoricas forma y donde, vamos a relizar unas agr
     datos2$donde<-replace(datos2$donde,datos2$donde==11, "exteriores")
     datos2$donde<-factor(datos2$donde)
     summary(datos2$donde)
+
+```
 
 **Ambulante**
 
@@ -150,11 +168,15 @@ En relación a las variables categoricas forma y donde, vamos a relizar unas agr
 
 A continuación vamos a generar una variable categorica para la edad que posteriormente usaremos solo para propositos de estadistica descriptiva
 
+```bash
+
     edades=vector()
     edades[datos2$edad<28]="Jovenes"
     edades[datos2$edad>=28 & datos2$edad<50]="Adultos"
     edades[datos2$edad>=50]="Adultos Mayores"
     datos2$edades=as.factor(edades)
+
+```
 
 **Adultos**
 
@@ -168,7 +190,7 @@ A continuación vamos a generar una variable categorica para la edad que posteri
 
 *74702*
 
-```
+```bash
 summary(datos2)
 ```
 
@@ -438,7 +460,7 @@ pocedemos con los test de independencia
     library(aod)
     
     wald.test(b = coef(logit), Sigma = vcov(logit), Terms = 4:5)# Para forma de
-    trabajo= empleado y pensionado
+    trabajo= empleado y otros
 
 ```bash
 
@@ -452,7 +474,7 @@ X2 = 299.5, df = 2, P(> X2) = 0.0
 
  
     wald.test(b = coef(logit), Sigma = vcov(logit), Terms = 6)# Para forma de
-    trabajo =otros
+    trabajo =pensionado
 
 ```bash
 
@@ -526,7 +548,7 @@ Number of Fisher Scoring iterations: 6
 
 ```
 
-    l <- cbind(0, 0, 0, 0, 1, -1, 0, 0,0,0)
+    l <- cbind(0, 0, 0, 1, -1, 0, 0, 0,0,0)
     wald.test(b = coef(logit), Sigma = vcov(logit), L = l)
 
 ```bash
@@ -535,7 +557,7 @@ Wald test:
 ----------
 
 Chi-squared test:
-X2 = 0.55, df = 1, P(> X2) = 0.46
+X2 = 0.76, df = 1, P(> X2) = 0.38
 
 ```
 
