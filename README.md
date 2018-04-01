@@ -304,6 +304,23 @@ Una mirada a las variables cuantitativas
 
 ![png](ingreso.jpg)
 
+Grafica de densidad de Kernel
+
+```bash
+
+    par(mfrow=c(2,1))
+    d <- density(datos2$edad)
+    plot(d)
+    
+    d <- density(datos2$edad)
+    plot(d, main=" Densidad de la edad")
+    polygon(d, col="grey", border="red")
+    rug(datos2$edad, col="brown")
+    par(mfrow=c(1,1))
+```
+
+![png](densidad.jpg)
+
 
 ahora veremos las mediadas de dispersión
 
