@@ -322,7 +322,7 @@ Grafica de densidad de Kernel
 ![png](densidad.jpg)
 
 
-ahora veremos las mediadas de dispersión
+ahora veremos las medidas de dispersión
 
 
 ```bash
