@@ -460,7 +460,7 @@ pocedemos con los test de independencia
     library(aod)
     
     wald.test(b = coef(logit), Sigma = vcov(logit), Terms = 4:5)# Para forma de
-    trabajo= empleado y pensionado
+    trabajo= empleado y otros
 
 ```bash
 
@@ -474,7 +474,7 @@ X2 = 299.5, df = 2, P(> X2) = 0.0
 
  
     wald.test(b = coef(logit), Sigma = vcov(logit), Terms = 6)# Para forma de
-    trabajo =otros
+    trabajo =pensionado
 
 ```bash
 
