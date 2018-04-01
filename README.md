@@ -21,7 +21,7 @@ Breve descripción de las variables
 1. 787044     
 2.  5
 
-|Satisfecho|Sexo| Ingreso|Forma |Donde | 
+|Satisfecho|Ingreso|Edad|Forma |Donde | 
 |--|--|--|--|--|
 |1 |1500000 |41 |2| 7|
 |NA|NA|42|NA|NA|
@@ -39,7 +39,7 @@ Los _NA's_ son valores perdidos por lo que es necesario determinar que hacer con
 2. 5
 
 
-|Satisfecho  |Sexo  |Ingreso |Forma |Donde | 
+|Satisfecho  |Ingreso  |Edad |Forma |Donde | 
 |--|--|--|--|--|
 | 1|1500000  |41 |2 |7 | 
 | 1|460000 |26 |4 |4 |
@@ -538,3 +538,52 @@ Chi-squared test:
 X2 = 0.55, df = 1, P(> X2) = 0.46
 
 ```
+
+
+
+Estimaciones con nuevas observaciones
+
+
+```bash
+
+    newdatap1 <- data.frame(ingreso = rep(seq(from = min(datos2$ingreso),
+    to = max(datos2$ingreso), length.out =150),4*5),
+    edad = rep(seq(from = min(datos2$edad),
+    to = max(datos2$edad), length.out =150), 4*5),
+    forma= rep(rep(c("empleado","cuenta propia","otros","pensionado"), each =150),
+    5),donde= rep(rep(c("vivienda","ambulante", "local","rural","exteriores"),
+    each =150), 4))
+    
+    head(newdatap1)
+    
+```
+
+```bash
+
+    newdatap1[, c("p", "se")] <- predict(logit, newdatap1, type = "response",
+    se.fit = TRUE)[-3]
+    
+    head(newdatap1)
+
+```
+
+
+|ingreso   |  edad   | forma |donde  | p |se |
+|--|--|--|--|--|--|
+|0.0  |10.00000  |empleado |vivienda  |0.6538552 |0.003924823 | 
+|671140.9 |10.59060 |empleado |vivienda  |0.7670344 |0.002961441 |
+|1342281.9 |11.18121 |empleado |vivienda  |0.8516060 |0.002439339 | 
+|2013422.8 |11.77181 |empleado |vivienda  |0.9091141 |0.002014648 |
+|2684563.8 |12.36242 |empleado |vivienda  |0.9457552 |0.001573271 |
+|3355704.7 |12.95302 |empleado |vivienda  |0.9681420  |0.001158307 |
+
+
+```bash
+
+    ggplot(newdatap1, aes(x = ingreso, y = p, colour =forma)) +
+    geom_line() + facet_wrap(~donde)
+
+```
+
+![png](predict1.jpg)
+
