@@ -165,99 +165,102 @@ En relación a las variables categoricas forma y donde, vamos a relizar unas agr
 
 *70853*
 
-
-A continuación vamos a generar una variable categorica para la edad que posteriormente usaremos solo para propositos de estadistica descriptiva
+Es necesario en este punto del trabajo tomar algunas determinaciones, como la edad de los encuestados y el nievel salarial de los mismos. Por lo tanto, crearemos un intervalo para la edad de los 18 a los 60 años, y para el ingreso desde $500 000, hasta $5 000 000.
 
 ```bash
 
-    edades=vector()
-    edades[datos2$edad<28]="Jovenes"
-    edades[datos2$edad>=28 & datos2$edad<50]="Adultos"
-    edades[datos2$edad>=50]="Adultos Mayores"
-    datos2$edades=as.factor(edades)
+    salario=subset(datos2,ingreso>=500000 & ingreso<=5000000)
+    edades=subset(salario,edad>=18 & edad<=60)
+    dim(edades)
 
-```
+ 1. 200653
+ 2. 6
+
+    summary(edades)
+
+  satisfecho       ingreso             edad                 forma       
+ Min.   :0.000   Min.   : 500000   Min.   :18.00   cuenta propia: 72214  
+ 1st Qu.:1.000   1st Qu.: 644350   1st Qu.:28.00   empleado     :125811  
+ Median :1.000   Median : 800000   Median :36.00   otros        :    45  
+ Mean   :0.876   Mean   :1083091   Mean   :37.26   pensionado   :  2583  
+ 3rd Qu.:1.000   3rd Qu.:1200000   3rd Qu.:46.00                         
+ Max.   :1.000   Max.   :5000000   Max.   :60.00                         
+        donde              satisfaccion   
+ ambulante : 36133   Insatisfecho: 24883  
+ exteriores: 10834   Satisfecho  :175770  
+ local     :119246                        
+ rural     :  8954                        
+ vivienda  : 25486       
+ 
+ ```
+            
+A continuación vamos a generar una variable categorica para la edad que posteriormente usaremos solo para propositos de estadistica descriptiva
+
+    etapa=vector()
+    etapa[edades$edad<30]="Jovenes"
+    etapa[edades$edad>=30 & edades$edad<50]="Adultos"
+    etapa[edades$edad>=50]="Adultos Mayores"
+    edades$etapa=as.factor(etapa)
 
 **Adultos**
 
-*160779*
+*105520*
 
 **Adultos Mayores**
 
-*81615*
+*35530*
 
 **Jovenes**
 
-*74702*
-
-```bash
-summary(datos2)
-```
-
+*59603*
 
 ```
- satisfecho        ingreso               edad                 forma       
- Min.   :0.0000   Min.   :        0   Min.   :10.00   cuenta propia:159124  
- 1st Qu.:1.0000   1st Qu.:   360000   1st Qu.:28.00   empleado     :152720  
- Median :1.0000   Median :   644350   Median :38.00   otros        :   413  
- Mean   :0.8371   Mean   :   877375   Mean   :39.57   pensionado   :  4839  
- 3rd Qu.:1.0000   3rd Qu.:   980000   3rd Qu.:50.00                         
- Max.   :1.0000   Max.   :100000000   Max.   :98.00                         
-        donde              satisfaccion                edades      
- ambulante : 60036   Insatisfecho: 51668   Adultos        :160779  
- exteriores: 13758   Satisfecho  :265428   Adultos Mayores: 81615  
- local     :147079                         Jovenes        : 74702  
- rural     : 25370                                                 
- vivienda  : 70853                                                 
-                                                  
 ```
-
 
 Ahora se realizara un analisis descriptivo de las variables a través de tablas de contingencia
 
-    with(datos2, addmargins(prop.table( table(edades,satisfaccion))*100))
-
+    with(edades, addmargins(prop.table( table(etapa,satisfaccion))*100))
 
 |  | Insatisfecho |Satisfecho | Sum|
 |--|--|--|--|
-| Adultos |  8.253967 |42.449605  |50.703572 |
-| Adultos Mayores| 3.120191   |22.618071 | 25.738262 |
-| Jovenes| 4.919961   | 18.638204  |23.558165 | 
-|sum|16.294119 |83.705881 |100.000000 | 
+| Adultos |  6.328338 |46.259961  |52.588299 |
+| Adultos Mayores| 1.571369   |16.135817 | 17.707186 |
+| Jovenes| 4.501303   | 25.203212  |29.704515 | 
+|sum|12.401011 |87.598989 |100.000000 | 
 
 
-    with(datos2, addmargins(prop.table( table(forma,satisfaccion))*100))
-
+    with(edades, addmargins(prop.table( table(forma,satisfaccion))*100))
 
 |  |Insatisfecho  |Satisfecho  |Sum |
 |--|--|--|--|
-|Cuenta propia  |9.53212907  |40.64951939  |50.18164846  |
-|Empleado  |6.48289477  |41.67917602  |48.16207079  |
-|Otros  | 0.03185155  |0.09839292  |0.13024447  |
-|Pensionado|0.24724374|1.27879254   |1.52603628  |
-|Sum    |16.29411913 |83.70588087   |100.00000000| 
+|Cuenta propia  |5.127758  |30.86174  |35.98949  |
+|Empleado  |7.100317  |55.60046  |62.70078  |
+|Otros  | 0.005980474  |0.01644630  |0.02242678  |
+|Pensionado| 0.1669549|1.120342   |1.287297  |
+|Sum    | 12.40101 |87.59899   |100.00000000| 
 
 
     with(datos2, addmargins(prop.table( table(donde,satisfaccion))*100))
 
-
 |  |Insatisfecho  |Satisfecho |Sum |
 |--|--|--|--|
-|Ambulante  |4.094974|14.838093 |18.933068 |
-|Exteriores |0.787774  |3.550975 |4.338749  |
-|Local |5.820950 |40.562164 |46.383114 |
-|Rural |1.420390 |6.580342 |8.000732 |
-|Vivienda | 4.170031 |18.174307 |22.344337 |
-|Sum |16.294119 |83.705881 |100.000000 | 
+|Ambulante  |3.1427390|14.8649659 |18.0077048 |
+|Exteriores |0.8387614  |4.5606096 |5.3993711  |
+|Local |6.2794974 |53.1494670 |59.4289644 |
+|Rural |0.5432264 |3.9192038 |4.4624302 |
+|Vivienda | 1.5967865 |11.1047430 |12.7015295 |
+|Sum |12.4010107 |87.5989893 |100.000000 | 
 
 
 Para complementar este análisis graficaremos
 
 ``` bash
-    with(datos2,barplot(prop.table(table(satisfaccion,edades))*100,beside=T,
+
+    par(lab=c(25,25,2))
+    with(edades,barplot(prop.table(table(satisfaccion,etapa))*100,beside=T,
     main="Satisfacción según la clasificación de edad",xlab="Clasificación",
-    ylab="Porcentaje",col=c("red","grey")))
-    legend("topright",c("Insatisfecho","satisfecho"),cex=1.6,col=c("red","grey"),
+    ylab="Porcentaje",col=c("green","blue"),ylim=c(0,50)))
+    legend("topright",c("Insatisfecho","satisfecho"),cex=1.6,col=c("green","blue"),
     lty=1:1)
 
 ```
@@ -267,11 +270,13 @@ Para complementar este análisis graficaremos
 
 ``` bash
 
-    with(datos2,barplot(prop.table(table(satisfaccion,forma))*100,beside=T,
-     main="Satisfacción según el tipo de trabajo",xlab="Clasificación",
-     ylab="Porcentaje",col=c("red","grey")))
 
-    legend("topright",c("Insatisfecho","satisfecho"),cex=1.6,fill=c("red","grey"),
+     par(lab=c(25,25,2))
+     with(edades,barplot(prop.table(table(satisfaccion,forma))*100,beside=T,
+     main="Satisfacción según el tipo de trabajo",xlab="Clasificación",
+     ylab="Porcentaje",col=c("green","blue"),ylim=c(0,56)))
+
+    legend("topright",c("Insatisfecho","satisfecho"),cex=1.6,fill=c("green","blue"),
     lty=1:1)
 
 ```
@@ -281,7 +286,7 @@ Para complementar este análisis graficaremos
 
 ``` bash
 
-    with(datos2,barplot(prop.table(table(satisfaccion,donde))*100,beside=T,
+    with(edades,barplot(prop.table(table(satisfaccion,donde))*100,beside=T,
     main="Satisfacción según el lugar de trabajo",xlab="Clasificación",
     ylab="Porcentaje",col=c("red","grey")))
 
@@ -296,9 +301,8 @@ Para complementar este análisis graficaremos
 Una mirada a las variables cuantitativas
 
 ```bash
-
-    with(datos2,hist(ingreso*1e-6, main = "Ingreso (en Millones)", xlab="", freq=F,
-    col=c("grey")))
+    with(edades,hist(ingreso*1e-6, main = "Ingreso (en Millones)", xlab="", freq=F,
+    col=c("blue")))
 
 ```
 
@@ -308,15 +312,14 @@ Grafica de densidad de Kernel
 
 ```bash
 
-    par(mfrow=c(2,1))
-    d <- density(datos2$edad)
-    plot(d)
     
-    d <- density(datos2$edad)
+    d <- density(edades$edad)
+       
+    d <- density(edades$edad)
     plot(d, main=" Densidad de la edad")
-    polygon(d, col="grey", border="red")
+    polygon(d, col="blue", border="green")
     rug(datos2$edad, col="brown")
-    par(mfrow=c(1,1))
+    
 ```
 
 ![png](densidad.jpg)
@@ -337,23 +340,22 @@ ahora veremos las medidas de dispersión
     return(c(tamaño=n, media=m, "desviación estándar"=s, simetría=skew,
     kurtosis=kurt))}
     
-    sapply(datos2, stats)
+    sapply(edades, stats)
 ```
 
 ```bash
-
-                     satisfecho      ingreso          edad        forma
-tamaño               3.170960e+05 3.170960e+05  3.170960e+05 3.170960e+05
-media                8.370588e-01 8.773750e+05  3.957301e+01           NA
-desviación estándar  3.693126e-01 1.221827e+06  1.401222e+01 5.858906e-01
-simetría            -1.825325e+00 1.570259e+01  4.239537e-01           NA
-kurtosis             1.331815e+00 6.794995e+02 -5.010338e-01           NA
-                          donde satisfaccion       edades
-tamaño              3.17096e+05 3.170960e+05 3.170960e+05
-media                        NA           NA           NA
-desviación estándar 1.32797e+00 3.693126e-01 8.178827e-01
-simetría                     NA           NA           NA
-kurtosis                     NA           NA           NA
+                         satisfecho      ingreso          edad        forma
+tamaño               2.006530e+05 2.006530e+05  2.006530e+05 2.006530e+05
+media                8.759899e-01 1.083091e+06  3.726093e+01           NA
+desviación estándar  3.295939e-01 7.326291e+05  1.109725e+01 5.478201e-01
+simetría            -2.281523e+00 2.462127e+00  2.304941e-01           NA
+kurtosis             3.205363e+00 6.879880e+00 -1.012533e+00           NA
+                           donde satisfaccion        etapa
+tamaño              2.006530e+05 2.006530e+05 2.006530e+05
+media                         NA           NA           NA
+desviación estándar 1.146148e+00 3.295939e-01 8.778184e-01
+simetría                      NA           NA           NA
+kurtosis                      NA           NA           NA
 There were 16 warnings (use warnings() to see them)
 
 ```
@@ -363,104 +365,94 @@ veamos en detalle las variables que nos interesan
 
 |  | ingreso | edad |
 |--|--|--|
-|tamaño  |317096|317096  |
-|Min. |0|10 |
-|1 st Qu . |360000 |28.00 |
-|Mediana|644350 |38.00  |
-|media   |877375 |39.573|
-|3rd Qu.|980000 |50.00|
-|Max. |100000000 |98.00 |
-|desviación estándar |1221827 |14.012 |
-|simetría |1.570259e+01 |4.239537e-01  | 
-|kurtosis  |6.794995e+02 |-5.010338e-01 | 
+|tamaño  |200653|200653|
+|Min. |500000|18 |
+|1 st Qu . |644350 |28.00 |
+|Mediana|800000 |36.00  |
+|media   |1083091 |37.26|
+|3rd Qu.|1200000|46.00|
+|Max. |5000000 |60.00 |
+|desviación estándar |732629|11.097 |
+|simetría |2.462127e+00 |2.304941e-01  | 
+|kurtosis  |6.879880e+00 |-1.012533e+00 | 
 
 
 ----------
-
 construcción de los modelos
 
     # Modelo
     logit <- glm(satisfecho ~ ingreso + edad + forma+ 
-          donde, data = datos2, family = "binomial")
+          donde, data = edades, family = "binomial")
           summary(logit)
 
 ```bash
-
-Warning message:
-glm.fit: fitted probabilities numerically 0 or 1 occurred 
-
 Call:
 glm(formula = satisfecho ~ ingreso + edad + forma + donde, family = "binomial", 
-    data = datos2)
+    data = edades)
 
 Deviance Residuals: 
     Min       1Q   Median       3Q      Max  
--7.3874   0.3548   0.5419   0.6413   1.1182  
+-3.1899   0.3789   0.4902   0.5620   1.0633  
 
 Coefficients:
                   Estimate Std. Error z value Pr(>|z|)    
-(Intercept)     -7.661e-02  1.881e-02  -4.073 4.64e-05 ***
-ingreso          8.102e-07  1.175e-08  68.940  < 2e-16 ***
-edad             2.012e-02  3.689e-04  54.540  < 2e-16 ***
-formaempleado    2.052e-01  1.186e-02  17.305  < 2e-16 ***
-formaotros       1.038e-01  1.161e-01   0.894    0.371    
-formapensionado  1.955e-01  4.343e-02   4.502 6.75e-06 ***
-dondeexteriores  1.078e-01  2.491e-02   4.328 1.51e-05 ***
-dondelocal       4.286e-01  1.411e-02  30.369  < 2e-16 ***
-donderural       3.273e-01  2.110e-02  15.509  < 2e-16 ***
-dondevivienda    3.062e-01  1.426e-02  21.470  < 2e-16 ***
+(Intercept)      1.794e-01  3.092e-02   5.801 6.58e-09 ***
+ingreso          6.243e-07  1.520e-08  41.061  < 2e-16 ***
+edad             1.928e-02  6.522e-04  29.554  < 2e-16 ***
+formaempleado    2.369e-01  1.560e-02  15.185  < 2e-16 ***
+formaotros      -5.765e-01  3.419e-01  -1.686   0.0918 .  
+formapensionado  1.591e-01  7.019e-02   2.266   0.0234 *  
+dondeexteriores  1.225e-01  3.040e-02   4.031 5.56e-05 ***
+dondelocal       4.452e-01  1.822e-02  24.429  < 2e-16 ***
+donderural       4.100e-01  4.116e-02   9.961  < 2e-16 ***
+dondevivienda    3.907e-01  2.364e-02  16.530  < 2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 281908  on 317095  degrees of freedom
-Residual deviance: 267224  on 317086  degrees of freedom
-AIC: 267244
+    Null deviance: 150425  on 200652  degrees of freedom
+Residual deviance: 145492  on 200643  degrees of freedom
+AIC: 145512
 
-Number of Fisher Scoring iterations: 6
+Number of Fisher Scoring iterations: 5
 
 ```
 
     probit <- glm(satisfecho ~ ingreso + edad + forma+ 
-           donde, data = datos2, family = binomial(link = "probit"))
+           donde, data = edades, family = binomial(link = "probit"))
            summary(probit)
 ```bash
-
-Warning message:
-glm.fit: fitted probabilities numerically 0 or 1 occurred 
-
 Call:
-glm(formula = satisfecho ~ ingreso + edad + forma + donde, family = 
-binomial(link = "probit"), data = datos2)
+glm(formula = satisfecho ~ ingreso + edad + forma + donde, family = binomial(link = "probit"), 
+    data = edades)
 
 Deviance Residuals: 
     Min       1Q   Median       3Q      Max  
--8.4904   0.3778   0.5480   0.6432   1.0515  
+-3.3014   0.3868   0.4925   0.5614   1.0285  
 
 Coefficients:
-                 Estimate Std. Error z value Pr(>|z|)    
-(Intercept)     6.843e-02  1.065e-02   6.428 1.29e-10 ***
-ingreso         3.472e-07  5.541e-09  62.657  < 2e-16 ***
-edad            1.145e-02  2.053e-04  55.771  < 2e-16 ***
-formaempleado   1.341e-01  6.496e-03  20.646  < 2e-16 ***
-formaotros      1.887e-02  6.797e-02   0.278    0.781    
-formapensionado 1.243e-01  2.410e-02   5.157 2.51e-07 ***
-dondeexteriores 7.144e-02  1.409e-02   5.071 3.96e-07 ***
-dondelocal      2.444e-01  7.887e-03  30.994  < 2e-16 ***
-donderural      1.658e-01  1.195e-02  13.878  < 2e-16 ***
-dondevivienda   1.526e-01  8.120e-03  18.794  < 2e-16 ***
+                  Estimate Std. Error z value Pr(>|z|)    
+(Intercept)      2.408e-01  1.657e-02  14.533  < 2e-16 ***
+ingreso          2.866e-07  7.045e-09  40.682  < 2e-16 ***
+edad             1.033e-02  3.458e-04  29.870  < 2e-16 ***
+formaempleado    1.249e-01  8.350e-03  14.959  < 2e-16 ***
+formaotros      -3.500e-01  2.021e-01  -1.732   0.0832 .  
+formapensionado  8.039e-02  3.744e-02   2.147   0.0318 *  
+dondeexteriores  6.657e-02  1.681e-02   3.960 7.49e-05 ***
+dondelocal       2.404e-01  9.937e-03  24.188  < 2e-16 ***
+donderural       2.176e-01  2.194e-02   9.919  < 2e-16 ***
+dondevivienda    2.081e-01  1.283e-02  16.212  < 2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 281908  on 317095  degrees of freedom
-Residual deviance: 268315  on 317086  degrees of freedom
-AIC: 268335
+    Null deviance: 150425  on 200652  degrees of freedom
+Residual deviance: 145656  on 200643  degrees of freedom
+AIC: 145676
 
-Number of Fisher Scoring iterations: 9
-
+Number of Fisher Scoring iterations: 5
 ```
 
 de donde debemos elegir con cual quedarnos 
@@ -469,8 +461,8 @@ de donde debemos elegir con cual quedarnos
 
 |  | df   |AIC |
 |--|--|--|
-|logit  | 10   |267243.9 |
-|probit | 10  |268335.3 | 
+|logit  | 10   |145511.7 |
+|probit | 10  |145676.0 | 
 
 pocedemos con los test de independencia
 
@@ -478,55 +470,47 @@ pocedemos con los test de independencia
     
     wald.test(b = coef(logit), Sigma = vcov(logit), Terms = 4:5)# Para forma de
     trabajo= empleado y otros
-
 ```bash
 
 Wald test:
 ----------
 
 Chi-squared test:
-X2 = 299.5, df = 2, P(> X2) = 0.0
-
+X2 = 235.0, df = 2, P(> X2) = 0.0
 ```
 
  
     wald.test(b = coef(logit), Sigma = vcov(logit), Terms = 6)# Para forma de
-    trabajo =pensionado
-
+    trabajo =otros
 ```bash
 
 Wald test:
 ----------
 
 Chi-squared test:
-X2 = 20.3, df = 1, P(> X2) = 6.7e-06
-
+X2 = 5.1, df = 1, P(> X2) = 0.023
 ```
     
     wald.test(b = coef(logit), Sigma = vcov(logit), Terms = 7:8) # Para lugar de
     trabajo= exteriores y local 
-
 ```bash
 
 Wald test:
 ----------
 
 Chi-squared test:
-X2 = 965.4, df = 2, P(> X2) = 0.0
-
+X2 = 633.8, df = 2, P(> X2) = 0.0
 ```
     
     wald.test(b = coef(logit), Sigma = vcov(logit), Terms = 9:10) # Para lugar de
     trabajo= rural y vivienda
-
 ```bash
 
 Wald test:
 ----------
 
 Chi-squared test:
-X2 = 531.1, df = 2, P(> X2) = 0.0
-
+X2 = 318.6, df = 2, P(> X2) = 0.0
 ```
 summary(logit)
 
@@ -534,47 +518,46 @@ summary(logit)
 
 Call:
 glm(formula = satisfecho ~ ingreso + edad + forma + donde, family = "binomial", 
-    data = datos2)
+    data = edades)
 
 Deviance Residuals: 
     Min       1Q   Median       3Q      Max  
--7.3874   0.3548   0.5419   0.6413   1.1182  
+-3.1899   0.3789   0.4902   0.5620   1.0633  
 
 Coefficients:
                   Estimate Std. Error z value Pr(>|z|)    
-(Intercept)     -7.661e-02  1.881e-02  -4.073 4.64e-05 ***
-ingreso          8.102e-07  1.175e-08  68.940  < 2e-16 ***
-edad             2.012e-02  3.689e-04  54.540  < 2e-16 ***
-formaempleado    2.052e-01  1.186e-02  17.305  < 2e-16 ***
-formaotros       1.038e-01  1.161e-01   0.894    0.371    
-formapensionado  1.955e-01  4.343e-02   4.502 6.75e-06 ***
-dondeexteriores  1.078e-01  2.491e-02   4.328 1.51e-05 ***
-dondelocal       4.286e-01  1.411e-02  30.369  < 2e-16 ***
-donderural       3.273e-01  2.110e-02  15.509  < 2e-16 ***
-dondevivienda    3.062e-01  1.426e-02  21.470  < 2e-16 ***
+(Intercept)      1.794e-01  3.092e-02   5.801 6.58e-09 ***
+ingreso          6.243e-07  1.520e-08  41.061  < 2e-16 ***
+edad             1.928e-02  6.522e-04  29.554  < 2e-16 ***
+formaempleado    2.369e-01  1.560e-02  15.185  < 2e-16 ***
+formaotros      -5.765e-01  3.419e-01  -1.686   0.0918 .  
+formapensionado  1.591e-01  7.019e-02   2.266   0.0234 *  
+dondeexteriores  1.225e-01  3.040e-02   4.031 5.56e-05 ***
+dondelocal       4.452e-01  1.822e-02  24.429  < 2e-16 ***
+donderural       4.100e-01  4.116e-02   9.961  < 2e-16 ***
+dondevivienda    3.907e-01  2.364e-02  16.530  < 2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 281908  on 317095  degrees of freedom
-Residual deviance: 267224  on 317086  degrees of freedom
-AIC: 267244
+    Null deviance: 150425  on 200652  degrees of freedom
+Residual deviance: 145492  on 200643  degrees of freedom
+AIC: 145512
 
-Number of Fisher Scoring iterations: 6
+Number of Fisher Scoring iterations: 5
 
 ```
 
-    l <- cbind(0, 0, 0, 1, -1, 0, 0, 0,0,0)
+    l <- cbind(0, 0, 0, 0, 1, -1, 0, 0,0,0)
     wald.test(b = coef(logit), Sigma = vcov(logit), L = l)
-
 ```bash
 
 Wald test:
 ----------
 
 Chi-squared test:
-X2 = 0.76, df = 1, P(> X2) = 0.38
+X2 = 5.7, df = 1, P(> X2) = 0.017
 
 ```
 
@@ -582,16 +565,15 @@ X2 = 0.76, df = 1, P(> X2) = 0.38
 
 Estimaciones con nuevas observaciones
 
-
 ```bash
 
-    newdatap1 <- data.frame(ingreso = rep(seq(from = min(datos2$ingreso),
-    to = max(datos2$ingreso), length.out =150),4*5),
-    edad = rep(seq(from = min(datos2$edad),
-    to = max(datos2$edad), length.out =150), 4*5),
-    forma= rep(rep(c("empleado","cuenta propia","otros","pensionado"), each =150),
+    newdatap1 <- data.frame(ingreso = rep(seq(from = min(edades$ingreso),
+    to = max(edades$ingreso), length.out =20),4*5),
+    edad = rep(seq(from = min(edades$edad),
+    to = max(edades$edad), length.out =20), 4*5),
+    forma= rep(rep(c("empleado","cuenta propia","otros","pensionado"), each =20),
     5),donde= rep(rep(c("vivienda","ambulante", "local","rural","exteriores"),
-    each =150), 4))
+    each =20), 4))
     
     head(newdatap1)
     
@@ -601,7 +583,6 @@ Estimaciones con nuevas observaciones
 
     newdatap1[, c("p", "se")] <- predict(logit, newdatap1, type = "response",
     se.fit = TRUE)[-3]
-    
     head(newdatap1)
 
 ```
@@ -609,13 +590,12 @@ Estimaciones con nuevas observaciones
 
 |ingreso   |  edad   | forma |donde  | p |se |
 |--|--|--|--|--|--|
-|0.0  |10.00000  |empleado |vivienda  |0.6538552 |0.003924823 | 
-|671140.9 |10.59060 |empleado |vivienda  |0.7670344 |0.002961441 |
-|1342281.9 |11.18121 |empleado |vivienda  |0.8516060 |0.002439339 | 
-|2013422.8 |11.77181 |empleado |vivienda  |0.9091141 |0.002014648 |
-|2684563.8 |12.36242 |empleado |vivienda  |0.9457552 |0.001573271 |
-|3355704.7 |12.95302 |empleado |vivienda  |0.9681420  |0.001158307 |
-
+|500000.0 |18.00000  |empleado |vivienda  |0.8124699 |0.003765462 | 
+|736842.1 |20.21053 |empleado |vivienda  |0.8397818 |0.003215223 |
+|973684.2 |22.42105 |empleado |vivienda  |0.8637829 |0.002782295 | 
+|1210526.3 |24.63158 |empleado |vivienda  |0.8846823 |0.002446615 |
+|1447368.4 |26.84211 |empleado |vivienda  |0.9027362 |0.002184442 |
+|1684210.5 |29.05263 |empleado |vivienda  |0.9182249  |0.001973296 |
 
 ```bash
 
